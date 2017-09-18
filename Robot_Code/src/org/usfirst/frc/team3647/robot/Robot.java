@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 	
 	
 	double straightdist = 1900;
-	double straightDistBR = 2020;
+	double straightDistBR = 1940;
 	double straightDistRR = 1840;
 	double bigTurn = 1600;
 	double smallTurn = 930;
