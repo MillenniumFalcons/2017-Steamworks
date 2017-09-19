@@ -39,3 +39,14 @@ int prevState = 0;
 String switchWiggle = "left";
 ```
 These are variables we use for the tele-operated period. The use of the ```steeringWheelDrive``` variable can be found in the ```runTeleOp()``` function, the use of the ```prevState``` variable can be found in both the ```updatedArcadeDrive()``` and ```updatedArcadeDriveForSteeringWheelDrive()``` function, and the use of the ```switchWiggle``` variable can be found in the ```teleOpWiggle()``` function.
+
+```
+Encoders enc;
+Clamp clampObj;
+DropDown dropdown;
+MainPiston mainpiston;
+Climber climberObj;
+Joystick007 joyStickValues;
+CameraServer server;
+```
+The are just creating objects for each class...
