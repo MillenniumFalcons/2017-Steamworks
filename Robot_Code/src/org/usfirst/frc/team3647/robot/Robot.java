@@ -23,8 +23,6 @@ public class Robot extends IterativeRobot {
 	boolean leftSide, rightSide;
 	int currentState;
 	int prevState = 0;
-	boolean steeringWheelDrive = false;
-	
 	
 	double straightdist = 1900;
 	double straightDistBR = 1940;
@@ -34,7 +32,11 @@ public class Robot extends IterativeRobot {
 	double distanceforGearFromMiddle = 1600;
 	double backUpDisatnceFromMiddle = 2300;
 	double goForwToCross = 5000;
+
+
+	boolean steeringWheelDrive = false;
 	
+
 	Encoders enc;
 	Clamp clampObj;
 	DropDown dropdown;
