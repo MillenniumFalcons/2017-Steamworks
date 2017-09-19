@@ -33,3 +33,8 @@ double backUpDisatnceFromMiddle = 2300;
 double goForwToCross = 5000;
 ```
 These are variables we use for the autonomous period. ```autoSelected``` is a variable that is used in the ```autonomousPeriodic()``` to determine what autonomous function we will be running. The ```leftEncoderValues``` and ```rightEncoderValues``` are variables used to store the encoder values of each side of the robot. Booleans ```leftSide``` and ```rightSide``` are used for satisfying conditions for encoder values of each motor. The variable ```currentState``` is used to determine which step of the autonomous function we are running in the switch case. Variables such as ```straightDistBR```, ```straightDistRR```, ```bigTurn```, ```smallTurn```, ```distanceforGearFromMiddle```, ```backUpDisatnceFromMiddle```, ```goForwToCross``` are used in our autonmous functions.
+```
+boolean steeringWheelDrive = false;
+int prevState = 0;
+```
+These are variables we use for the tele-operated period. The use of the ```steeringWheelDrive``` variable can be found in the ```runTeleOp()``` function.
