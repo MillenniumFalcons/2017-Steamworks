@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3647.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -31,10 +33,8 @@ public class Robot extends IterativeRobot {
 	double backUpDisatnceFromMiddle = 2300;
 	double goForwToCross = 5000;
 
-
 	boolean steeringWheelDrive = false;
 	
-
 	Encoders enc;
 	Clamp clampObj;
 	DropDown dropdown;
