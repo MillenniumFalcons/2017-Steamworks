@@ -34,6 +34,7 @@ public class Robot extends IterativeRobot {
 
 	boolean steeringWheelDrive = false;
 	int prevState = 0;
+	String switchWiggle = "left";
 	
 	Encoders enc;
 	Clamp clampObj;
@@ -42,8 +43,6 @@ public class Robot extends IterativeRobot {
 	Climber climberObj;
 	Joystick007 joyStickValues;
 	CameraServer server;
-	
-	String switchWiggle = "left";
 	
 	
 	public void robotInit() 
