@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 	double goForwToCross = 5000;
 
 	boolean steeringWheelDrive = false;
-	int prevState = 0
+	int prevState = 0;
 	
 	Encoders enc;
 	Clamp clampObj;
