@@ -22,7 +22,6 @@ public class Robot extends IterativeRobot {
 	double rightEncoderValues;
 	boolean leftSide, rightSide;
 	int currentState;
-	int prevState = 0;
 	
 	double straightdist = 1900;
 	double straightDistBR = 1940;
@@ -34,6 +33,7 @@ public class Robot extends IterativeRobot {
 	double goForwToCross = 5000;
 
 	boolean steeringWheelDrive = false;
+	int prevState = 0;
 	
 	Encoders enc;
 	Clamp clampObj;
