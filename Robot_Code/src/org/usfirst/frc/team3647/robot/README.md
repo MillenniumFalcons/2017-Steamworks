@@ -36,5 +36,6 @@ These are variables we use for the autonomous period. ```autoSelected``` is a va
 ```
 boolean steeringWheelDrive = false;
 int prevState = 0;
+String switchWiggle = "left";
 ```
-These are variables we use for the tele-operated period. The use of the ```steeringWheelDrive``` variable can be found in the ```runTeleOp()``` function, and the use of the ```prevState``` variable can be found in both the ```updatedArcadeDrive()``` and ```updatedArcadeDriveForSteeringWheelDrive()``` function.
+These are variables we use for the tele-operated period. The use of the ```steeringWheelDrive``` variable can be found in the ```runTeleOp()``` function, the use of the ```prevState``` variable can be found in both the ```updatedArcadeDrive()``` and ```updatedArcadeDriveForSteeringWheelDrive()``` function, and the use of the ```switchWiggle``` variable can be found in the ```teleOpWiggle()``` function.
