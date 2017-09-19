@@ -37,4 +37,4 @@ These are variables we use for the autonomous period. ```autoSelected``` is a va
 boolean steeringWheelDrive = false;
 int prevState = 0;
 ```
-These are variables we use for the tele-operated period. The use of the ```steeringWheelDrive``` variable can be found in the ```runTeleOp()``` function.
+These are variables we use for the tele-operated period. The use of the ```steeringWheelDrive``` variable can be found in the ```runTeleOp()``` function, and the use of the ```prevState``` variable can be found in both the ```updatedArcadeDrive()``` and ```updatedArcadeDriveForSteeringWheelDrive()``` function.
