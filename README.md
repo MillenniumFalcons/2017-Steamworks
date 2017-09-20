@@ -1,7 +1,4 @@
 # 2017-Steamworks
-<<<<<<< HEAD
-hello
-=======
 
 This is the code for the 2017 Steamworks Robot. 
 
@@ -10,4 +7,4 @@ Steamworks is a steampunk themed competition based on delivering gears to airshi
 Our 2017 robot, General Gearvous, focused on cycling gears and climbing. Our unique spatula and clamp contraption allowed us to pick up gears from both the ground and the loading station. Its powerful drivetrain combined with a closed loop PID using encoders allowed us to maneuver across the field incredibly quickly and incredibly gracefully. Our dual 775 pro climber climbed the rope incredibly fast.
 
 Have fun reading through the code.
->>>>>>> 94726c3c3d0de2c0520af90d496d30f5fda40314
+
