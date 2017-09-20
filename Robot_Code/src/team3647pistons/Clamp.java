@@ -5,7 +5,6 @@ import team3647subsystems.Joystick007;
 
 public class Clamp 
 {
-	
 	//These are the Objects for both the clamp pistons and clamp Motor
 	public Solenoid clamp= new Solenoid(2);
 	public Solenoid clampOff = new Solenoid(3);
