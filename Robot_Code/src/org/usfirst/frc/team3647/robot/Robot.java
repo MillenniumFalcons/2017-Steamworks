@@ -48,9 +48,13 @@ public class Robot extends IterativeRobot {
 	Joystick007 joyStickValues;
 	CameraServer server;
 	
+<<<<<<< HEAD
 	//This is the code for the robot initialization
 	//This function runs once before the whole robot starts running
 	//Assign classes for all the objects
+=======
+	
+>>>>>>> f774d8a66a8a3bd76a68fb55701e6aee27e61866
 	public void robotInit() 
 	{
 		enc = new Encoders();
