@@ -5,12 +5,15 @@ import team3647subsystems.Joystick007;
 
 public class Clamp 
 {
+	
+	//These are the Objects for both the clamp pistons and clamp Motor
 	public Solenoid clamp= new Solenoid(2);
 	public Solenoid clampOff = new Solenoid(3);
 	public Spark clampMotor = new Spark(4);
 	
 	boolean joyStickValue;
 		
+	//This is the function that updates the pistons during Tele-Operated Period
 	public void updatePistons()
 	{
 		joyStickValue =  Joystick007.guitarClampButton;
@@ -37,12 +40,14 @@ public class Clamp
 		}
 	}
 	
+	//This function will clamp the pistons
 	public void clampThePiston()
 	{
 		clamp.set(false);
 		clampOff.set(true);
 	}
 	
+	//This function will un-clamp the pistons
 	public void unClampThePiston()
 	{
 		clamp.set(true);

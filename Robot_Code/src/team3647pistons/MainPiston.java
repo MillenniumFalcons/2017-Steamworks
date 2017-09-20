@@ -5,11 +5,13 @@ import team3647subsystems.Joystick007;
 
 public class MainPiston 
 {
+	//These are the Objects for the Main pistons 
 	public Solenoid mainPistonOn = new Solenoid(5);
 	public Solenoid mainPistonOff = new Solenoid(4);
 	
 	boolean joyStickValue;
 	
+	//This is the function that updates the pistons during Tele-Operated Period
 	public void updatePistons()
 	{
 		joyStickValue =  Joystick007.mainPistonButton;
@@ -25,7 +27,7 @@ public class MainPiston
 		}
 	}
 	
-	
+	//This is a function I created...
 	public boolean tORf(boolean stickValue, boolean pistonStatus)
 	{
 		if(stickValue == false && pistonStatus == false)
@@ -46,12 +48,14 @@ public class MainPiston
 		}
 	}
 	
+	//This function drops the Main Piston
 	public void dropMainPiston()
 	{
 		mainPistonOn.set(false);
 		mainPistonOff.set(true);
 	}
 	
+	//This function grabs the Main Piston
 	public void grabMainPiston()
 	{
 		mainPistonOn.set(true);
