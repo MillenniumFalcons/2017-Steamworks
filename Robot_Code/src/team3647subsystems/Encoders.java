@@ -93,6 +93,44 @@ public class Encoders
 			return false;
 		}
 	}
+	
+	public void slowDrive(double distance)
+	{
+		rightEncValue = returnrightEncValue();
+		leftEncValue = returnleftEncValue();
+		averageEncoderValue = getAverage(rightEncValue, leftEncValue);
+		encodersWithinRange = withinRange(rightEncValue, leftEncValue);
+		
+		if(averageEncoderValue < distance)
+		{
+			if(encodersWithinRange == false)
+			{
+				if(leftEncValue > rightEncValue)
+				{
+					Motors007.leftTalon.set(.3);
+					Motors007.rightTalon.set(-5);
+					
+				}
+				else if(leftEncValue < rightEncValue)
+				{
+					Motors007.leftTalon.set(.5);
+					Motors007.rightTalon.set(-.3);
+				}
+			}
+			else
+			{
+				Motors007.leftTalon.set(4);
+				Motors007.rightTalon.set(-.4);
+			}
+		}
+
+		else
+		{
+			Motors007.leftTalon.set(0);
+			Motors007.rightTalon.set(0);
+		}
+		
+	}
 
 	public void encoderDrive(double distance, double state)
 	{
