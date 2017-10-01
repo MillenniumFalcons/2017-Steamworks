@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	double backUpDisatnceFromMiddle = 2300;
 	double goForwToCross = 5000;
 
-	//Variables used for conditions in Autonomous
+	//Variables used for conditions in Tele-Op
 	boolean steeringWheelDrive = false;
 	int prevState = 0;
 	String switchWiggle = "left";
