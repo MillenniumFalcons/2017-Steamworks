@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import team3647pistons.Clamp;
 import team3647pistons.DropDown;
+import team3647pistons.Light;
 import team3647pistons.MainPiston;
 import team3647subsystems.Climber;
 import team3647subsystems.DigitalInputs;
@@ -33,7 +34,7 @@ public class Robot extends IterativeRobot {
 	double smallTurn = 930;
 	double distanceforGearFromMiddle = 1600;
 	double backUpDisatnceFromMiddle = 2300;
-	double goForwToCross = 5000;
+	double goForwToCross = 6000;
 
 	//Variables used for conditions in Tele-Op
 	boolean steeringWheelDrive = false;
@@ -48,6 +49,7 @@ public class Robot extends IterativeRobot {
 	Climber climberObj;
 	Joystick007 joyStickValues;
 	CameraServer server;
+	Light lightObj;
 	
 	//This is the code for the robot initialization
 	//This function runs once before the whole robot starts running
@@ -60,6 +62,7 @@ public class Robot extends IterativeRobot {
 		dropdown = new DropDown();
 		mainpiston = new MainPiston();
 		climberObj = new Climber();
+		lightObj = new Light();
 
 		//This piece of code runs the camera
 		server = CameraServer.getInstance();
@@ -86,6 +89,7 @@ public class Robot extends IterativeRobot {
 		while(DriverStation.getInstance().isAutonomous() && !DriverStation.getInstance().isDisabled())
 		{
 			autoSelected = DigitalInputs.digitalPins();
+			//autoSelected = 99;
 			if(autoSelected == 0)
 			{
 				centerAuto();
@@ -130,11 +134,29 @@ public class Robot extends IterativeRobot {
 				{
 					currentState = 3;
 				}
-				break;		
+				break;					
 			case 3:
 				clampObj.unClampThePiston();
 				Motors007.leftTalon.set(0);
 				Motors007.rightTalon.set(0);
+				break;
+		}
+	}
+	
+	public void testLights()
+	{
+		switch(currentState)
+		{
+			case 1:
+				lightObj.On();
+				Timer.delay(.3);
+				lightObj.Off();
+				Timer.delay(.3);
+				lightObj.On();
+				currentState =2;
+				break;
+			case 2:
+				lightObj.Off();
 				break;
 		}
 	}
@@ -301,9 +323,9 @@ public class Robot extends IterativeRobot {
 			case 9:
 				leftEncoderValues = Math.abs(enc.returnleftEncValue());
 				rightEncoderValues = Math.abs(enc.returnrightEncValue());
-				if(rightEncoderValues < bigTurn)
+				if(rightEncoderValues < (bigTurn+70))
 				{
-					Motors007.rightTalon.set(.4);
+					Motors007.rightTalon.set(.36);
 				}
 				else
 				{
@@ -312,7 +334,7 @@ public class Robot extends IterativeRobot {
 				}
 				if(leftEncoderValues < smallTurn)
 				{
-					Motors007.leftTalon.set(-.2);
+					Motors007.leftTalon.set(-.3);
 				}
 				else
 				{
@@ -326,6 +348,7 @@ public class Robot extends IterativeRobot {
 				}
 				break;
 			case 10:
+				System.out.println("yes");
 				Motors007.rightTalon.set(0);
 				Motors007.leftTalon.set(0);
 				mainpiston.grabMainPiston();
@@ -468,7 +491,7 @@ public class Robot extends IterativeRobot {
 			case 10:
 				leftEncoderValues = Math.abs(enc.returnleftEncValue());
 				rightEncoderValues = Math.abs(enc.returnrightEncValue());
-				if(leftEncoderValues < bigTurn)
+				if(leftEncoderValues < (bigTurn-50))
 				{
 					Motors007.leftTalon.set(-.4);
 				}
@@ -582,6 +605,7 @@ public class Robot extends IterativeRobot {
 		else
 		{
 			updatedArcadeDrive();
+			//updatedSlowArcadeDrive();
 		}
 	}
 	
@@ -646,6 +670,126 @@ public class Robot extends IterativeRobot {
 		double checks,checkt,speed,turn;
 		leftValue = sinx(Joystick007.leftJoySticky);
 		rightValue =  (Joystick007.rightJoyStickx);
+		
+		checks = Math.abs(leftValue);
+		checkt = Math.abs(rightValue);
+		
+		if(leftValue > 0 && rightValue == 0 )
+		{
+			prevState = 1;
+		}
+		else if(leftValue < 0 && rightValue == 0)
+		{
+			prevState = 2;
+		}
+		else
+		{
+			enc.resetEncoders();
+			prevState = 0;
+		}
+		
+		if(prevState == 0)
+		{
+			if (checks <.15) 	
+			{
+				speed = 0;
+			}
+			else 			
+			{
+				speed = 1*(checks * leftValue);
+			}
+			if (checkt <.15) 	
+			{
+				turn = 0;
+			}
+			else 			
+			{
+				if(leftValue == 0)
+				{
+					turn = turnConstant()*(rightValue);
+				}
+				else
+				{
+					turn = turnConstant()*(rightValue);
+				}
+				
+			}    
+			Motors007.leftTalon.set(((speed+turn)));
+		    Motors007.rightTalon.set(((-speed+turn)));
+		    
+		}
+		else if(prevState == 1)
+		{
+				double rightEncValue, leftEncValue;
+				rightEncValue = enc.returnrightEncValue();
+				leftEncValue = enc.returnleftEncValue();
+				if(leftValue < .3)
+				{
+					enc.resetEncoders();
+					Motors007.leftTalon.set(leftValue);
+					Motors007.rightTalon.set(-leftValue);
+					
+				}
+				
+				else
+				{
+						if(Math.abs(rightEncValue - leftEncValue) < 6)
+						{
+							Motors007.leftTalon.set(leftValue);
+						    Motors007.rightTalon.set(-leftValue);
+						}
+						else if(rightEncValue > leftEncValue)
+						{
+							Motors007.leftTalon.set(leftValue);
+						    Motors007.rightTalon.set(-leftValue + .34);
+						}
+						else
+						{
+							Motors007.leftTalon.set(leftValue - .34);
+						    Motors007.rightTalon.set(-leftValue);
+						}
+					
+				}
+		}
+		else
+		{
+			double rightEncValue, leftEncValue;
+			rightEncValue = enc.returnrightEncValue();
+			leftEncValue = enc.returnleftEncValue();
+			if(Math.abs(leftValue)< .3)
+			{
+				enc.resetEncoders();
+				Motors007.leftTalon.set(leftValue);
+				Motors007.rightTalon.set(-leftValue);
+			}
+			else
+			{
+					if(Math.abs(rightEncValue - leftEncValue) < 6)
+					{
+						Motors007.leftTalon.set(leftValue);
+					    Motors007.rightTalon.set(-leftValue);
+					}
+					else if(rightEncValue > leftEncValue)
+					{
+						Motors007.leftTalon.set(leftValue + .34);
+					    Motors007.rightTalon.set(-leftValue);
+					}
+					else
+					{
+						Motors007.leftTalon.set(leftValue);
+					    Motors007.rightTalon.set(-leftValue - .34);
+					
+					}
+			}
+		}	
+	}
+	
+	public void updatedSlowArcadeDrive()
+	{
+		double leftValue, rightValue;
+		double checks,checkt,speed,turn;
+		leftValue = sinx(Joystick007.leftJoySticky * .7);
+		rightValue =  (Joystick007.rightJoyStickx * .7);
 		
 		checks = Math.abs(leftValue);
 		checkt = Math.abs(rightValue);
@@ -978,5 +1122,15 @@ public class Robot extends IterativeRobot {
 			System.out.println("Invalid Digital Input");
 			System.out.println("Just gonna move forw for a bit");
 		}
+	}
+	
+	//This function determines the value of the constant we use to multiply the speed for turning
+	//This constant depends on how fast we are moving in the y direction
+	public double turnConstant()
+	{
+		double jValue, rValue;
+		jValue = Joystick007.leftJoySticky;
+		rValue = .75 -(.25*(Math.abs(jValue)));
+		return rValue;
 	}
 }
