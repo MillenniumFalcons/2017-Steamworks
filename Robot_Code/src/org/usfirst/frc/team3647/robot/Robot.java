@@ -2,14 +2,12 @@ package org.usfirst.frc.team3647.robot;
 
 //These are the import statements...
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import team3647pistons.Clamp;
 import team3647pistons.DropDown;
-import team3647pistons.Light;
+import team3647pistons.LightPiston;
 import team3647pistons.MainPiston;
 import team3647subsystems.Climber;
 import team3647subsystems.DigitalInputs;
@@ -28,28 +26,30 @@ public class Robot extends IterativeRobot {
 	
 	//Variables used for moving robot autonomously
 	double straightdist = 1900;
-	double straightDistBR = 1940;
-	double straightDistRR = 1840;
+	double straightDistBR = 2170;
+	double straightDistRR = 1940;
 	double bigTurn = 1600;
 	double smallTurn = 930;
 	double distanceforGearFromMiddle = 1600;
 	double backUpDisatnceFromMiddle = 2300;
-	double goForwToCross = 6000;
+	double goForwToCross = 6500;
 
 	//Variables used for conditions in Tele-Op
 	boolean steeringWheelDrive = false;
 	int prevState = 0;
 	String switchWiggle = "left";
+	String gearStatus = "gearOff";
 	
 	//Creating objects...
 	Encoders enc;
 	Clamp clampObj;
 	DropDown dropdown;
 	MainPiston mainpiston;
+	LightPiston lightObj;
+	
 	Climber climberObj;
 	Joystick007 joyStickValues;
 	CameraServer server;
-	Light lightObj;
 	
 	//This is the code for the robot initialization
 	//This function runs once before the whole robot starts running
@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 		dropdown = new DropDown();
 		mainpiston = new MainPiston();
 		climberObj = new Climber();
-		lightObj = new Light();
+		lightObj = new LightPiston();
 
 		//This piece of code runs the camera
 		server = CameraServer.getInstance();
@@ -89,7 +89,6 @@ public class Robot extends IterativeRobot {
 		while(DriverStation.getInstance().isAutonomous() && !DriverStation.getInstance().isDisabled())
 		{
 			autoSelected = DigitalInputs.digitalPins();
-			//autoSelected = 99;
 			if(autoSelected == 0)
 			{
 				centerAuto();
@@ -147,16 +146,35 @@ public class Robot extends IterativeRobot {
 	{
 		switch(currentState)
 		{
+//			case 1:
+//				lightObj.On();
+//				Timer.delay(.3);
+//				lightObj.Off();
+//				Timer.delay(.3);
+//				lightObj.On();
+//				currentState =2;
+//				break;
+//			case 2:
+//				lightObj.Off();
+//				break;
+		}
+	}
+	
+	public void newAuto()
+	{
+		switch(currentState)
+		{
 			case 1:
-				lightObj.On();
-				Timer.delay(.3);
-				lightObj.Off();
-				Timer.delay(.3);
-				lightObj.On();
-				currentState =2;
+				Motors007.leftTalon.set(.4);
+				Motors007.rightTalon.set(-.4);
+				Timer.delay(3);
+				Motors007.leftTalon.set(0);
+				Motors007.rightTalon.set(0);
+				currentState = 2;
 				break;
 			case 2:
-				lightObj.Off();
+				Motors007.leftTalon.set(0);
+				Motors007.rightTalon.set(0);
 				break;
 		}
 	}
@@ -546,8 +564,22 @@ public class Robot extends IterativeRobot {
 	
 	//This is the function that runs during Tele-Operated Period
 	public void teleopPeriodic() 
+	{	
+			runTeleOp();	
+		//testEncoders();
+	}
+	
+	public void switches()
 	{
-		runTeleOp();
+		if(DigitalInputs.testSwitch())
+		{
+			lightObj.clampThePiston();
+		}
+		else
+		{
+			lightObj.unClampThePiston();
+		}
+		
 	}
 	
 	//This is the function thats being called during Tele-Op
@@ -561,6 +593,7 @@ public class Robot extends IterativeRobot {
 			updateAllPistonsForSteeringWheel();
 			climberObj.theClimber();
 			driveTrainForSteeringWheel();
+			switches();
 		}
 		else
 		{
@@ -568,6 +601,7 @@ public class Robot extends IterativeRobot {
 			updateAllPistons();
 			climberObj.theClimber();
 			driveTrain();
+			switches();
 		}
 	}
 	
@@ -707,10 +741,12 @@ public class Robot extends IterativeRobot {
 				if(leftValue == 0)
 				{
 					turn = turnConstant()*(rightValue);
+					//turn = .5*(rightValue);
 				}
 				else
 				{
 					turn = turnConstant()*(rightValue);
+					//turn = .5*(rightValue);
 				}
 				
 			}    
